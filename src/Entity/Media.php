@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -119,13 +118,30 @@ class Media
 
     public function getUtilisateur()
     {
-        return $this->utilisateurs;
+        return $this->utilisateur;
     }
 
     public function setUtilisateur($utilisateur): self
     {
         $this->utilisateur = $utilisateur;
 
-        return this;
+        return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getGenre()
+    {
+        return $this->genre;
+    }
+
+    /**
+     * @param mixed $genre
+     */
+    public function setGenre(Genre $genre)
+    {
+        $this->genre = $genre;
+    }
+
 }

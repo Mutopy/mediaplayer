@@ -28,7 +28,7 @@ class Genre
     private $medias;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TypeMedia", inversedBy="genres")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypeMedia", inversedBy="genres",)
      */
     private $type;
 

@@ -29,3 +29,31 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    admin.genre:
+        class: App\Admin\GenreAdmin
+        arguments: [~, App\Entity\Genre, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Genre }
+        public: true
+
+    admin.typemedia:
+        class: App\Admin\TypeMediaAdmin
+        arguments: [~, App\Entity\Typemedia, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: TypeMedia }
+        public: true
+
+    admin.utilisateur:
+        class: App\Admin\UtilisateurAdmin
+        arguments: [~, App\Entity\Utilisateur, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Utilisateur }
+        public: true
+
+    admin.media:
+        class: App\Admin\MediaAdmin
+        arguments: [~, App\Entity\Media, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Media }
+        public: true
