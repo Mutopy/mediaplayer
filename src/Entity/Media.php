@@ -119,13 +119,25 @@ class Media
 
     public function getUtilisateur()
     {
-        return $this->utilisateurs;
+        return $this->utilisateur;
     }
 
     public function setUtilisateur($utilisateur): self
     {
         $this->utilisateur = $utilisateur;
 
-        return this;
+        return $this;
+    }
+
+    public function getGenre()
+    {
+        return $this->genre;
+    }
+
+    public function setGenre($genre): self
+    {
+        $this->genre = $genre;
+
+        return $this;
     }
 }
