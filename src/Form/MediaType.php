@@ -17,7 +17,7 @@ class MediaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
+        /*$builder
             ->add('name', TextType::class, array(
                 'attr' => array('class' =>'form-control')
             ))
@@ -29,6 +29,26 @@ class MediaType extends AbstractType
                 'attr' => array('class' =>'form-control')
             ))
             ->add('extension', TextType::class, array(
+                'attr' => array('class' =>'form-control')
+            ))
+            ->add('genre', EntityType::class, array(
+                'class' => Genre::class,
+                'choice_label' => 'name',
+            ))
+            ->add('Submit', SubmitType::class, array(
+                'attr' => array('class' =>'btn btn-primary mt-3')
+            ))
+        ;*/
+        $builder
+            ->add('file_media', FileType::class, array(
+                'mapped' => false,
+                'required' => false
+            ))
+            ->add('file_picture', FileType::class, array(
+                'mapped' => false,
+                'required' => false
+            ))
+            ->add('description', TextType::class, array(
                 'attr' => array('class' =>'form-control')
             ))
             ->add('genre', EntityType::class, array(

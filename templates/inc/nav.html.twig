@@ -12,8 +12,16 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('media_create') }}"><i class="fa fa-plus"></i> Ajout média</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('media_manage') }}"><i class="fa fa-list-ul"></i> Mes médias</a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin') }}"><i class="fa fa-wrench"></i> SCRUD</a>
+            </li>
+            {% endif %}
         </ul>
-        <strong class="mr-3">{{ app.user.username | capitalize }}
+        <strong class="mr-3">{{ app.user.username }}
             {% if is_granted('ROLE_ADMIN') %}
                 <span class="badge badge-danger">admin</span>
             {% endif %}

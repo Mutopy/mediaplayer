@@ -9,15 +9,11 @@
 namespace App\Controller;
 
 
-use App\Entity\Genre;
+use App\Entity\Fichier;
 use App\Entity\Media;
 use App\Form\MediaType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -40,37 +36,16 @@ class MediaController extends Controller
      * @Route("/media/create", name="media_create")
      */
     public function create(Request $request, EntityManagerInterface $em) {
-        /*$media = new Media();
+        $media = new Media();
         $form = $this->createForm(MediaType::class, $media);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()) {
-            $em->persist($media);
-            $em->flush();
-
-            $this->redirect('media_list');
-        }*/
-
-        $form = $this->createFormBuilder()
-            ->add('file_media', FileType::class)
-            ->add('file_picture', FileType::class)
-            ->add('description', TextType::class, array(
-                'attr' => array('class' =>'form-control')
-            ))
-            ->add('genre', EntityType::class, array(
-                'class' => Genre::class,
-                'choice_label' => 'name',
-            ))
-            ->add('Submit', SubmitType::class, array(
-                'attr' => array('class' =>'btn btn-primary mt-3')
-            ))
-            ->getForm();
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $nameMedia = $request->files->all()["form"]["file_media"]->getClientOriginalName();
-            $namePicture = $request->files->all()["form"]["file_picture"]->getClientOriginalName();
+            $fileMedia = new Fichier($request->files->all()["media"]["file_media"]);
+            $filePicture = new Fichier($request->files->all()["media"]["file_picture"]);
+            $nameMedia = $fileMedia->getName();
+            $namePicture = $filePicture->getName();
             $media = new Media();
             $media->setName(explode(".",$nameMedia)[0]);
             $media->setDateCreated(new \DateTime());
@@ -80,17 +55,95 @@ class MediaController extends Controller
             $media->setPicture($namePicture);
             $media->setUtilisateur($this->getUser());
 
-            //dump($this->get('kernel')->getRootDir() . '\..\public\medias');
+            $em->persist($media);
+            $em->flush();
 
-            /*$em->persist($media);
-            $em->flush();*/
-
-            $request->files->all()["form"]["file_media"]->move(
-                $this->get('kernel')->getRootDir() . '\..\public\medias',
-                $request->files->all()["form"]["file_media"]->getClientOriginalName()
+            $fileMedia->upload(
+                $this->get('kernel')->getRootDir() . '\..\public\medias'
             );
 
-            //$this->redirect('media_list');
+            $filePicture->upload(
+                $this->get('kernel')->getRootDir() . '\..\public\medias'
+            );
+
+            $this->addFlash("success", "Média créé");
+
+            return $this->redirectToRoute('media_manage');
+        }
+
+        return $this->render('media/create.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/media/manage", name="media_manage")
+     */
+    public function manage(EntityManagerInterface $em) {
+        $medias = $em->getRepository(Media::class)->findByUser($this->getUser()->getId());
+
+        $params = array(
+            "list" => $medias
+        );
+
+        return $this->render('media/manage.html.twig', $params);
+    }
+
+    /**
+     * @Route("/media/delete/{id}", name="media_delete")
+     */
+    public function delete(Media $media, EntityManagerInterface $em) {
+        $em->remove($media);
+        $em->flush();
+
+        $this->addFlash("danger", "Média supprimé");
+
+        return $this->redirectToRoute('media_manage');
+    }
+
+    /**
+     * @Route("/media/update/{id}", name="media_update")
+     */
+    public function update(Media $media, Request $request, EntityManagerInterface $em) {
+        //$media = new Media();
+        $form = $this->createForm(MediaType::class, $media);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $fileMedia = new Fichier($request->files->all()["media"]["file_media"]);
+            $filePicture = new Fichier($request->files->all()["media"]["file_picture"]);
+
+            if($fileMedia->getFile() != null) {
+                $media->setName(explode(".",$fileMedia->getName())[0]);
+                $media->setExtension(explode(".",$fileMedia->getName())[1]);
+            }
+            $media->setDateCreated(new \DateTime());
+            $media->setDescription($form->get('description')->getViewData());
+            $media->setGenre($form->get('genre')->getData());
+            if($filePicture->getFile() != null) {
+                $media->setPicture($filePicture->getName());
+            }
+            $media->setUtilisateur($this->getUser());
+
+            $em->persist($media);
+            $em->flush();
+
+            if($fileMedia->getFile() != null) {
+                $fileMedia->upload(
+                    $this->get('kernel')->getRootDir() . '\..\public\medias'
+                );
+            }
+
+            if($filePicture->getFile() != null) {
+                $filePicture->upload(
+                    $this->get('kernel')->getRootDir() . '\..\public\medias'
+                );
+            };
+
+            $this->addFlash("warning", "Média modifié");
+
+            return $this->redirectToRoute('media_manage');
         }
 
         return $this->render('media/create.html.twig', [

@@ -63,7 +63,7 @@ class MainController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->redirect('login');
+            $this->redirectToRoute('login');
         }
 
         return $this->render('main/register.html.twig', [
@@ -76,5 +76,12 @@ class MainController extends Controller
      */
     public function logout() {
 
+    }
+
+    /**
+     * @Route("/myadmin", name="admin")
+     */
+    public function admin() {
+        return $this->redirect("/WEB/mediaplayer/public/admin");
     }
 }
