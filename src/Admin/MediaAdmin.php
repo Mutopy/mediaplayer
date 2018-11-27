@@ -20,6 +20,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MediaAdmin extends AbstractAdmin
 {
+    protected $baseRoutePattern = 'admin_media';
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->with('Content', ['class' => 'col-md-9'])

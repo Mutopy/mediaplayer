@@ -1,0 +1,53 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} col-6 mt-3" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <h1 class="mt-3">Liste de mes médias</h1>
+    <ul class="list-group mt-3">
+    {% for key,item in list %}
+        <li class="list-group-item">
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <a href="{{ path('media_update', {'id':item.id}) }}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#m{{ item.id }}Modal">
+                    <i class="fa fa-trash-alt"></i>
+                </button>
+            </div>
+            <img src="{{ asset('medias/' ~ item.picture) }}" class="mr-3" alt="Card image cap" width="50">
+            <a href="">{{ item.name }}</a><br>
+            <span class="badge badge-secondary">{{ item.genre.type.name ~ " / " ~ item.genre.name }}</span>
+            <br>
+            <small>{{ item.description }}</small>
+        </li>
+    {% endfor %}
+    </ul>
+    {% for key,item in list %}
+        <div class="modal fade" id="m{{ item.id }}Modal" tabindex="-1" role="dialog" aria-labelledby="m{{ item.id }}ModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="m{{ item.id }}ModalLabel">Suppression</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Voulez vous vraiment supprimer <b>{{ item.name }}</b> ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <a href="{{ path('media_delete', {"id":item.id}) }}" class="btn btn-danger">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

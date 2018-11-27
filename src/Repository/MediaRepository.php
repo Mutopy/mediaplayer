@@ -47,4 +47,14 @@ class MediaRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByUser($user): array
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->join('m.genre', 'g')
+            ->andWhere('m.utilisateur  = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        return $qb->execute();
+    }
 }
