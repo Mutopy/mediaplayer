@@ -12,6 +12,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('media_create') }}"><i class="fa fa-plus"></i> Ajout média</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin') }}"><i class="fa fa-plus"></i> Oui</a>
+            </li>
         </ul>
         <strong class="mr-3">{{ app.user.username | capitalize }}
             {% if is_granted('ROLE_ADMIN') %}
