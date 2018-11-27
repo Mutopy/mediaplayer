@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="{{ path('home') }}" class="navbar-brand" href="#">
+        <img src="{{ asset('img/media.png') }}" width="30px" height="30px" class="d-inline-block align-top" alt="">
+        MediaPlayer
+    </a>
+    {% if app.user %}
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('media_list') }}"><i class="fa fa-home"></i> Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('media_create') }}"><i class="fa fa-plus"></i> Ajout média</a>
+            </li>
+        </ul>
+        <strong class="mr-3">{{ app.user.username | capitalize }}
+            {% if is_granted('ROLE_ADMIN') %}
+                <span class="badge badge-danger">admin</span>
+            {% endif %}
+        </strong>
+        <a href="{{ path('logout') }}" class="btn btn-outline-dark"><i class="fa fa-key"></i> Logout</a>
+    </div>
+    {% endif %}
+</nav>

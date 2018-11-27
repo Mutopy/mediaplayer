@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateurRepository")
  */
-class Utilisateur
+class Utilisateur implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -46,6 +47,11 @@ class Utilisateur
      * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="utilisateur")
      */
     private $medias;
+
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles;
 
     /**
      * Utilisateur constructor.
@@ -130,5 +136,30 @@ class Utilisateur
         $this->medias = $medias;
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        $roles = $this->roles;
+        //$roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles($roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
