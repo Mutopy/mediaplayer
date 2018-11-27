@@ -33,6 +33,7 @@ class GenreAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->addIdentifier('name');
+        $listMapper->addIdentifier('name')
+            ->add('type.name');
     }
 }
