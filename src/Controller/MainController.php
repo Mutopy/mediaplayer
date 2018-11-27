@@ -79,9 +79,8 @@ class MainController extends Controller
     }
 
     /**
-     * @Route("/myadmin", name="admin")
+     * @Route("/admin", name="admin")
      */
     public function admin() {
-        return $this->redirect("/WEB/mediaplayer/public/admin");
     }
 }
