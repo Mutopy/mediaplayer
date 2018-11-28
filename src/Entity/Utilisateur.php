@@ -39,7 +39,7 @@ class Utilisateur implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $password;
 
@@ -51,7 +51,7 @@ class Utilisateur implements UserInterface
     /**
      * @ORM\Column(type="json_array")
      */
-    private $roles;
+    private $roles = [];
 
     /**
      * Utilisateur constructor.
@@ -141,7 +141,6 @@ class Utilisateur implements UserInterface
     public function getRoles()
     {
         $roles = $this->roles;
-        //$roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
