@@ -18,7 +18,8 @@ class TypeMediaAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper->add('name', TextType::class);
+        $formMapper->with('Typemedia ', ['class' => 'col-md-9'])
+            ->add('name', TextType::class);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -28,6 +29,12 @@ class TypeMediaAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->addIdentifier('name');
+        $listMapper->addIdentifier('name')
+            ->add('_action', null, [
+                'actions' => [
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ]);
     }
 }

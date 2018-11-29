@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
+    locale: 'fr'
 
 services:
     # default configuration for services in *this* file
@@ -34,26 +34,26 @@ services:
         class: App\Admin\GenreAdmin
         arguments: [~, App\Entity\Genre, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Genre }
+            - { name: sonata.admin, manager_type: orm, label: Genre, group: "Administration" }
         public: true
 
     admin.typemedia:
         class: App\Admin\TypeMediaAdmin
         arguments: [~, App\Entity\Typemedia, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: TypeMedia }
+            - { name: sonata.admin, manager_type: orm, label: TypeMedia, group: "Administration" }
         public: true
 
     admin.utilisateur:
         class: App\Admin\UtilisateurAdmin
         arguments: [~, App\Entity\Utilisateur, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Utilisateur }
+            - { name: sonata.admin, manager_type: orm, label: Utilisateur, group: "Administration" }
         public: true
 
     admin.media:
         class: App\Admin\MediaAdmin
         arguments: [~, App\Entity\Media, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Media }
+            - { name: sonata.admin, manager_type: orm, label: Media, group: "Administration" }
         public: true

@@ -16,6 +16,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MediaAdmin extends AbstractAdmin
@@ -24,14 +25,14 @@ class MediaAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper->with('Content', ['class' => 'col-md-9'])
+        $formMapper->with('Média', ['class' => 'col-md-9'])
                         ->add('name', TextType::class)
-                        ->add('description', TextType::class)
+                        ->add('description', TextType::class,['required' => false])
                         ->add('dateCreated', DateTimeType::class)
                         ->add('picture',TextType::class)
                         ->add('extension',TextType::class)
                     ->end()
-                    ->with('Meta data', ['class' => 'col-md-3'])
+                    ->with(' ', ['class' => 'col-md-3'])
                         ->add('genre', ModelType::class, [
                             'class' => Genre::class,
                             'property' => 'name',
@@ -56,7 +57,13 @@ class MediaAdmin extends AbstractAdmin
                     ->add('picture')
                     ->add('extension')
                     ->add('utilisateur.username')
-                    ->add('genre.name');
+                    ->add('genre.name')
+                    ->add('_action', null, [
+                        'actions' => [
+                        'edit' => [],
+                        'delete' => [],
+                ]
+            ]);
     }
 
     public function prePersist($object)

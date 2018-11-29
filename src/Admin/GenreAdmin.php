@@ -20,7 +20,8 @@ class GenreAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper->add('name', TextType::class)
+        $formMapper->with('Genre',['class' => 'col-md-9'])
+            ->add('name', TextType::class)
                     ->add('type',EntityType::class, [
                 'class' => TypeMedia::class,
                 'choice_label' => 'name',]);
@@ -34,6 +35,14 @@ class GenreAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->addIdentifier('name')
-            ->add('type.name');
+            ->add('type.name')
+            ->add('_action', null, [
+                'actions' => [
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ]);
     }
+
+
 }

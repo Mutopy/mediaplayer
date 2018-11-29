@@ -31,7 +31,7 @@ class UtilisateurAdmin extends AbstractAdmin
                 array(
                     'choices' =>array(
                         'USER' =>'ROLE_USER',
-                        'ADMIN' => 'ROLE_USER'
+                        'ADMIN' => 'ROLE_ADMIN'
                     ),
                     'multiple'=> true
                 )
@@ -58,7 +58,20 @@ class UtilisateurAdmin extends AbstractAdmin
                     ->add('email')
                     ->add('password')
                     ->add('roles')
-
+            ->add('_action', null, [
+                'actions' => [
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
+    }
+
+    public function prePersist($object) {
+        $plainPassword = $object->getPassword();
+        $container = $this->getConfigurationPool()->getContainer();
+        $encoder = $container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($object, $plainPassword);
+        $object->setPassword($encoded);
     }
 }

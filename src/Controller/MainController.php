@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,7 +60,6 @@ class MainController extends Controller
             $pass = $endoder->encodePassword($user, $user->getPassword());
             $user->setPassword($pass);
             $user->setRoles(['ROLE_USER']);
-
             $em->persist($user);
             $em->flush();
 
@@ -88,7 +88,7 @@ class MainController extends Controller
     }
 
     /**
-     * @Route("/myadmin", name="admin")
+     * @Route("/admin", name="admin")
      */
     public function admin() {
     }
