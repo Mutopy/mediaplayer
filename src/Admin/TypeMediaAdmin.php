@@ -32,7 +32,6 @@ class TypeMediaAdmin extends AbstractAdmin
         $listMapper->addIdentifier('name')
             ->add('_action', null, [
                 'actions' => [
-                    'show' => [],
                     'edit' => [],
                     'delete' => [],
                 ]
