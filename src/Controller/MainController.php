@@ -28,7 +28,7 @@ class MainController extends Controller
             "content" => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sem dolor, iaculis nec fermentum sed, luctus a dolor. Fusce vestibulum aliquet aliquet. Vestibulum magna dolor, consectetur malesuada iaculis quis, elementum non ipsum. Pellentesque et nibh purus. Nunc at tempus nisi. Cras at efficitur risus, a tincidunt urna. Quisque consectetur vitae magna sed fringilla. Nunc id consequat est. Donec elementum nunc vehicula leo posuere, ac interdum magna pretium. Nulla et imperdiet justo.'
         );
 
-        return $this->render('main/home.html.twig', $params);
+        return $this->render('layout.html.twig', $params);
     }
 
     /**
@@ -63,12 +63,21 @@ class MainController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->redirectToRoute('login');
+            $this->addFlash("success", "Le compte a bien été créé");
+
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('main/register.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/forgot", name="forgot")
+     */
+    public function forgot() {
+        return $this->render('main/forgot.html.twig');
     }
 
     /**
@@ -79,9 +88,8 @@ class MainController extends Controller
     }
 
     /**
-         * @Route("/myadmin", name="admin")
+     * @Route("/myadmin", name="admin")
      */
     public function admin() {
-        return $this->redirect("/WEB/mediaplayer/public/admin");
     }
 }

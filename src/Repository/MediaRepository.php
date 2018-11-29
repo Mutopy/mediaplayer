@@ -57,4 +57,15 @@ class MediaRepository extends ServiceEntityRepository
 
         return $qb->execute();
     }
+
+    public function findByType($type): array
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->join('m.genre', 'g')
+            ->andWhere('g.type  = :type')
+            ->setParameter('type', $type)
+            ->getQuery();
+
+        return $qb->execute();
+    }
 }

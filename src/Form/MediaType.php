@@ -42,21 +42,28 @@ class MediaType extends AbstractType
         $builder
             ->add('file_media', FileType::class, array(
                 'mapped' => false,
-                'required' => false
+                'required' => false,
+                'label' => 'Média'
             ))
             ->add('file_picture', FileType::class, array(
                 'mapped' => false,
-                'required' => false
+                'required' => false,
+                'label' => 'Image'
             ))
             ->add('description', TextType::class, array(
                 'attr' => array('class' =>'form-control')
             ))
             ->add('genre', EntityType::class, array(
+                'attr' => array('class' =>'form-control'),
                 'class' => Genre::class,
+                'group_by' => function($choiceValue, $key, $value) {
+                    return $choiceValue->getType()->getName();
+                },
                 'choice_label' => 'name',
             ))
-            ->add('Submit', SubmitType::class, array(
-                'attr' => array('class' =>'btn btn-primary mt-3')
+            ->add('submit', SubmitType::class, array(
+                'attr' => array('class' =>'btn btn-primary mt-3'),
+                'label' => 'Envoyer'
             ))
         ;
     }

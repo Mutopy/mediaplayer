@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Fichier;
 use App\Entity\Media;
+use App\Entity\TypeMedia;
 use App\Form\MediaType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,13 +21,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class MediaController extends Controller
 {
     /**
-     * @Route("/media/", name="media_list")
+     * @Route("/media/{id}", name="media_list", defaults={"id"=1}, requirements={"id":"\d+"})
      */
-    public function list(EntityManagerInterface $em) {
-        $medias = $em->getRepository(Media::class)->findAll();
+    public function list(TypeMedia $typeMedia, EntityManagerInterface $em) {
+        $medias = $em->getRepository(Media::class)->findByType($typeMedia);
+        $types = $em->getRepository(TypeMedia::class)->findAll();
 
         $params = array(
-            "list" => $medias
+            "list" => $medias,
+            "types" => $types,
+            "current" => $typeMedia
         );
 
         return $this->render('media/list.html.twig', $params);
@@ -66,7 +70,7 @@ class MediaController extends Controller
                 $this->get('kernel')->getRootDir() . '\..\public\medias'
             );
 
-            $this->addFlash("success", "Média créé");
+            $this->addFlash("success", "Le média a été créé");
 
             return $this->redirectToRoute('media_manage');
         }
@@ -96,7 +100,7 @@ class MediaController extends Controller
         $em->remove($media);
         $em->flush();
 
-        $this->addFlash("danger", "Média supprimé");
+        $this->addFlash("danger", "Le média a été supprimé");
 
         return $this->redirectToRoute('media_manage');
     }
@@ -141,12 +145,12 @@ class MediaController extends Controller
                 );
             };
 
-            $this->addFlash("warning", "Média modifié");
+            $this->addFlash("warning", "Le média a été modifié");
 
             return $this->redirectToRoute('media_manage');
         }
 
-        return $this->render('media/create.html.twig', [
+        return $this->render('media/update.html.twig', [
             'form' => $form->createView()
         ]);
     }
