@@ -15,6 +15,7 @@ use App\Entity\TypeMedia;
 use App\Form\MediaType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -99,6 +100,10 @@ class MediaController extends Controller
     public function delete(Media $media, EntityManagerInterface $em) {
         $em->remove($media);
         $em->flush();
+
+        $fileSystem = new Filesystem();
+        $fileSystem->remove($this->get('kernel')->getRootDir() . '\..\public\medias\\'.$media->getPicture());
+        $fileSystem->remove($this->get('kernel')->getRootDir() . '\..\public\medias\\'.$media->getName().".".$media->getExtension());
 
         $this->addFlash("danger", "Le média a été supprimé");
 

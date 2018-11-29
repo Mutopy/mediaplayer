@@ -76,7 +76,24 @@ class MainController extends Controller
     /**
      * @Route("/forgot", name="forgot")
      */
-    public function forgot() {
+    public function forgot(Request $request, UserPasswordEncoderInterface $endoder, EntityManagerInterface $em) {
+        $email = $request->request->get('_email');
+        $password = $request->request->get('_password');
+
+        $user = $em->getRepository(Utilisateur::class)->findByEmail($email);
+
+        if (!empty($user)) {
+            $user->setPassword($password);
+            $pass = $endoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($pass);
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash("warning", "Le mot de passe a bien été réinitialisé");
+
+            return $this->redirectToRoute('login');
+        }
+
         return $this->render('main/forgot.html.twig');
     }
 
@@ -85,11 +102,5 @@ class MainController extends Controller
      */
     public function logout() {
 
-    }
-
-    /**
-     * @Route("/admin", name="admin")
-     */
-    public function admin() {
     }
 }
