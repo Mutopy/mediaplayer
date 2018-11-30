@@ -42,5 +42,4 @@ class Fichier
 
         return $fileName;
     }
-
 }

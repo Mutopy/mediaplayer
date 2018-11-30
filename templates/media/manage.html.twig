@@ -1,3 +1,4 @@
+{% trans_default_domain 'messages' %}
 {% extends 'layout.html.twig' %}
 
 {% block body %}
@@ -16,7 +17,7 @@
         <div class="page-header row no-gutters py-4">
             <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                 <span class="text-uppercase page-subtitle">Média</span>
-                <h3 class="page-title">Mes médias</h3>
+                <h3 class="page-title">{% trans %}Mes médias{% endtrans %}</h3>
             </div>
         </div>
         <div class="card card-small blog-comments">

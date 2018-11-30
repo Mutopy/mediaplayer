@@ -28,7 +28,7 @@
                     <div class="col-lg-6 col-sm-12 mb-4">
                         <div class="card card-small card-post card-post--aside card-post--1">
                             <div class="card-post__image" style="background-image: url('{{ asset('medias/' ~ item.picture) }}');">
-                                <a href="#" class="card-post__category badge badge-pill badge-dark">{{ item.genre.type.name ~ " / " ~ item.genre.name }}</a>
+                                <a href="#" class="card-post__category badge badge-pill badge-dark">{{ item.genre.name }}</a>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">
@@ -49,7 +49,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
                         <div class="card card-small card-post card-post--1">
                             <div class="card-post__image" style="background-image: url('{{ asset('medias/' ~ item.picture) }}');">
-                                <a href="#" class="card-post__category badge badge-pill badge-dark">{{ item.genre.type.name ~ " / " ~ item.genre.name }}</a>
+                                <a href="#" class="card-post__category badge badge-pill badge-dark">{{ item.genre.name }}</a>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">

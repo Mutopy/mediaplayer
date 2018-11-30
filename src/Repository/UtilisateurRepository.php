@@ -19,6 +19,16 @@ class UtilisateurRepository extends ServiceEntityRepository
         parent::__construct($registry, Utilisateur::class);
     }
 
+    public function findByEmail($email): ?Utilisateur
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->andWhere('u.email  = :email')
+            ->setParameter('email', $email)
+            ->getQuery();
+
+        return $qb->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Utilisateur[] Returns an array of Utilisateur objects
     //  */
