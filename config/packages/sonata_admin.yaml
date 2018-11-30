@@ -12,16 +12,7 @@ sonata_admin:
             type: sonata.block.service.text
             settings:
                 content: >
-                    <h2>Bienvenue sur la page d'Admin de mediaplayer</h2>
-        groups:
-            Administration:
-            news:
-                label:  Home
-                items:
-                - route:        home
-                  label:        Main
-                - route:        logout
-                  label:        Logout
+                    <h2>Bienvenue sur MediaPlayer Admin</h2>
 
     templates:
         layout:     '@SonataAdmin/standard_layout.html.twig'
@@ -32,4 +23,3 @@ sonata_block:
         sonata.user.block.menu:
         sonata.block.service.text:
         sonata.block.service.rss:
-        sonata.admin.block.search_result:

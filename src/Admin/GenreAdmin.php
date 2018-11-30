@@ -8,7 +8,6 @@
 
 namespace App\Admin;
 
-use App\Entity\Genre;
 use App\Entity\TypeMedia;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -45,11 +44,5 @@ class GenreAdmin extends AbstractAdmin
             ]);
     }
 
-    public function toString($object)
-    {
-        return $object instanceof Genre
-            ? $object->getName()
-            : 'Genre'; // shown in the breadcrumb on the create view
-    }
 
 }

@@ -9,7 +9,6 @@
 namespace App\Admin;
 
 use App\Entity\Genre;
-use App\Entity\Media;
 use App\Entity\Utilisateur;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -27,11 +26,11 @@ class MediaAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->with('Média', ['class' => 'col-md-9'])
-                        ->add('file', FileType::class)
-                        ->add('image',FileType::class)
+                        ->add('name', TextType::class)
                         ->add('description', TextType::class,['required' => false])
                         ->add('dateCreated', DateTimeType::class)
-
+                        ->add('picture',TextType::class)
+                        ->add('extension',TextType::class)
                     ->end()
                     ->with(' ', ['class' => 'col-md-3'])
                         ->add('genre', ModelType::class, [
@@ -47,11 +46,7 @@ class MediaAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $datagridMapper->add('name')
-                        ->add('description')
-                        ->add('dateCreated')
-                        ->add('genre.name')
-        ;
+        $datagridMapper->add('name');
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -61,7 +56,6 @@ class MediaAdmin extends AbstractAdmin
                     ->add('dateCreated')
                     ->add('picture')
                     ->add('extension')
-                    ->add('image',FileType::class)
                     ->add('utilisateur.username')
                     ->add('genre.name')
                     ->add('_action', null, [
@@ -94,13 +88,5 @@ class MediaAdmin extends AbstractAdmin
     {
         return $this->userManager;
     }
-
-    public function toString($object)
-    {
-        return $object instanceof Media
-            ? $object->getName()
-            : 'Media'; // shown in the breadcrumb on the create view
-    }
-
 
 }

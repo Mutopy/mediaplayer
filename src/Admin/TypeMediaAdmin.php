@@ -37,11 +37,4 @@ class TypeMediaAdmin extends AbstractAdmin
                 ]
             ]);
     }
-
-    public function toString($object)
-    {
-        return $object instanceof TypeMedia
-            ? $object->getName()
-            : 'TypeMedia'; // shown in the breadcrumb on the create view
-    }
 }
