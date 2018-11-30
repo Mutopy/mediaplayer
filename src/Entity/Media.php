@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MediaRepository")
@@ -50,6 +51,58 @@ class Media
      * @ORM\ManyToOne(targetEntity="App\Entity\Genre", inversedBy="medias")
      */
     private $genre;
+
+    private $image;
+
+    private $file;
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        if ($this->getPicture()!= null){
+            $this->image = new File('C:\wamp64\www\mediaplayer\public\medias\\'.$this->getPicture());
+            dump($this->image);
+        }
+        return  $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image)
+    {
+        $nameMedia = $image->getClientOriginalName();
+        $image->move( 'C:\wamp64\www\mediaplayer\public\medias', $nameMedia);
+        $this->setPicture($nameMedia);
+        $this->image = $image;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        if($this->getName() != null) {
+            $this->file = new File('C:\wamp64\www\mediaplayer\public\medias\\'.$this->getPicture());
+            dump($this->file);
+        }
+        return  $this->file;
+    }
+
+    /**
+     * @param mixed $file
+     */
+    public function setFile($file)
+    {
+        $nameMedia = $file->getClientOriginalName();
+        $file->move( 'C:\wamp64\www\mediaplayer\public\medias', $nameMedia);
+        $this->setName(explode(".",$nameMedia)[0]);
+        $this->setExtension(explode(".",$nameMedia)[1]);
+        $this->file = $file;
+
+    }
 
     public function getId(): ?int
     {

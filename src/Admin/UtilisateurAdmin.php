@@ -8,11 +8,13 @@
 
 namespace App\Admin;
 
+use App\Entity\Utilisateur;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -23,7 +25,7 @@ class UtilisateurAdmin extends AbstractAdmin
         $formMapper->with('Utilisateur',['class' => 'col-md-9'])
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
-            ->add('email', TextType::class)
+            ->add('email', EmailType::class)
             ->add('username',TextType::class)
             ->add('password',PasswordType::class)
 
@@ -74,4 +76,12 @@ class UtilisateurAdmin extends AbstractAdmin
         $encoded = $encoder->encodePassword($object, $plainPassword);
         $object->setPassword($encoded);
     }
+
+    public function toString($object)
+    {
+        return $object instanceof Utilisateur
+            ? $object->getUsername()
+            : 'Utilisateur'; // shown in the breadcrumb on the create view
+    }
+
 }

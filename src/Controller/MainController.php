@@ -86,10 +86,4 @@ class MainController extends Controller
     public function logout() {
 
     }
-
-    /**
-     * @Route("/admin", name="admin")
-     */
-    public function admin() {
-    }
 }
