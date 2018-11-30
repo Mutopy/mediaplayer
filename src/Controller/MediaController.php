@@ -85,6 +85,7 @@ class MediaController extends Controller
      * @Route("/media/manage", name="media_manage")
      */
     public function manage(EntityManagerInterface $em) {
+        dump($this->get('session')->get('locale'));
         $medias = $em->getRepository(Media::class)->findByUser($this->getUser()->getId());
 
         $params = array(
@@ -101,9 +102,9 @@ class MediaController extends Controller
         $em->remove($media);
         $em->flush();
 
-        $fileSystem = new Filesystem();
+        /*$fileSystem = new Filesystem();
         $fileSystem->remove($this->get('kernel')->getRootDir() . '\..\public\medias\\'.$media->getPicture());
-        $fileSystem->remove($this->get('kernel')->getRootDir() . '\..\public\medias\\'.$media->getName().".".$media->getExtension());
+        $fileSystem->remove($this->get('kernel')->getRootDir() . '\..\public\medias\\'.$media->getName().".".$media->getExtension());*/
 
         $this->addFlash("danger", "Le média a été supprimé");
 

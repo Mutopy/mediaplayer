@@ -14,6 +14,7 @@ use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -29,7 +30,7 @@ class MainController extends Controller
             "content" => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sem dolor, iaculis nec fermentum sed, luctus a dolor. Fusce vestibulum aliquet aliquet. Vestibulum magna dolor, consectetur malesuada iaculis quis, elementum non ipsum. Pellentesque et nibh purus. Nunc at tempus nisi. Cras at efficitur risus, a tincidunt urna. Quisque consectetur vitae magna sed fringilla. Nunc id consequat est. Donec elementum nunc vehicula leo posuere, ac interdum magna pretium. Nulla et imperdiet justo.'
         );
 
-        return $this->render('layout.html.twig', $params);
+        return $this->redirectToRoute('login');
     }
 
     /**
@@ -102,5 +103,19 @@ class MainController extends Controller
      */
     public function logout() {
 
+    }
+
+    /**
+     * @Route("/language/{language}", name="language")
+     */
+    public function setLocaleAction($language = null, Request $request)
+    {
+        if($language != null)
+        {
+            // On enregistre la langue en session
+            $this->get('session')->set('locale', $language);
+        }
+
+        return $this->redirectToRoute('media_manage');
     }
 }
